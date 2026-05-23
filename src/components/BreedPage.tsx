@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { ArrowLeft } from 'lucide-react';
+import { Howler } from 'howler';
 import { sfx } from '../sounds';
 
 const SECTIONS = [
@@ -35,19 +36,37 @@ export default function BreedPage() {
   useEffect(() => {
     const el = bannerRef.current;
     if (!el) return;
+
+    // Resume AudioContext suspended by browser autoplay policy on scroll
+    const unlockAudio = () => {
+      if (Howler.ctx && Howler.ctx.state === 'suspended') {
+        Howler.ctx.resume();
+      }
+    };
+
+    let fadeTimer: ReturnType<typeof setTimeout> | null = null;
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          sfx.chinese.play();
+          if (fadeTimer) { clearTimeout(fadeTimer); fadeTimer = null; }
+          unlockAudio();
+          sfx.chinese.volume(0.45);
+          if (!sfx.chinese.playing()) sfx.chinese.play();
         } else {
-          sfx.chinese.fade(sfx.chinese.volume(), 0, 800);
-          setTimeout(() => { sfx.chinese.stop(); sfx.chinese.volume(0.45); }, 850);
+          const vol = sfx.chinese.volume();
+          if (vol > 0) sfx.chinese.fade(vol, 0, 800);
+          fadeTimer = setTimeout(() => { sfx.chinese.stop(); }, 850);
         }
       },
-      { threshold: 0.3 }
+      { threshold: 0.05 }
     );
     observer.observe(el);
-    return () => { observer.disconnect(); sfx.chinese.stop(); };
+    return () => {
+      observer.disconnect();
+      if (fadeTimer) clearTimeout(fadeTimer);
+      sfx.chinese.stop();
+    };
   }, []);
 
   return (
