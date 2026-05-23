@@ -331,31 +331,65 @@ export default function ToonHub() {
           ))}
         </div>
 
-        {/* Bottom-left: title + description + nav buttons */}
-        <div
-          className="absolute bottom-6 left-4 sm:bottom-20 sm:left-24"
-          style={{ zIndex: 60, maxWidth: 320 }}
-        >
+        {/* Character info — mobile: bottom-centre with description; desktop: bottom-left */}
+        {isMobile ? (
           <div
-            key={activeIndex}
             style={{
-              animation: 'fadeSlideIn 400ms cubic-bezier(0.4,0,0.2,1) both',
+              position: 'absolute',
+              bottom: 0, left: 0, right: 0,
+              zIndex: 60,
+              padding: '0 28px 20px',
+              textAlign: 'center',
             }}
           >
-            <p
-              className="font-bold uppercase tracking-widest mb-2 sm:mb-3 text-base sm:text-[22px]"
-              style={{ color: 'white', opacity: 0.95, letterSpacing: '0.02em' }}
-            >
-              {IMAGES[activeIndex].name}
-            </p>
-            <p
-              className="hidden sm:block text-xs sm:text-sm mb-4 sm:mb-5"
-              style={{ color: 'white', opacity: 0.85, lineHeight: 1.6 }}
-            >
-              {IMAGES[activeIndex].description}
-            </p>
+            <div key={activeIndex} style={{ animation: 'fadeSlideIn 340ms cubic-bezier(0.22,1,0.36,1) both' }}>
+              <p style={{
+                fontFamily: "'Inter', sans-serif",
+                fontSize: 13,
+                fontWeight: 700,
+                letterSpacing: '0.1em',
+                textTransform: 'uppercase',
+                color: 'white',
+                opacity: 0.95,
+                margin: '0 0 8px',
+              }}>
+                {IMAGES[activeIndex].name}
+              </p>
+              <p style={{
+                fontSize: 12,
+                color: 'rgba(255,255,255,0.82)',
+                lineHeight: 1.6,
+                margin: 0,
+                display: '-webkit-box',
+                WebkitLineClamp: 3,
+                WebkitBoxOrient: 'vertical' as const,
+                overflow: 'hidden',
+              }}>
+                {IMAGES[activeIndex].description}
+              </p>
+            </div>
           </div>
-        </div>
+        ) : (
+          <div
+            className="absolute bottom-20 left-24"
+            style={{ zIndex: 60, maxWidth: 320 }}
+          >
+            <div key={activeIndex} style={{ animation: 'fadeSlideIn 400ms cubic-bezier(0.4,0,0.2,1) both' }}>
+              <p
+                className="font-bold uppercase tracking-widest mb-3 text-[22px]"
+                style={{ color: 'white', opacity: 0.95, letterSpacing: '0.02em' }}
+              >
+                {IMAGES[activeIndex].name}
+              </p>
+              <p
+                className="text-sm mb-5"
+                style={{ color: 'white', opacity: 0.85, lineHeight: 1.6 }}
+              >
+                {IMAGES[activeIndex].description}
+              </p>
+            </div>
+          </div>
+        )}
 
         {/* Left arrow */}
         <button
@@ -437,9 +471,9 @@ export default function ToonHub() {
           zIndex: 4,
         }} />
 
-        {/* Bottom-right: DISCOVER IT link */}
+        {/* Bottom-right: DISCOVER IT link — desktop only */}
         <div
-          className="absolute bottom-6 right-4 sm:bottom-20 sm:right-10"
+          className="absolute hidden sm:block sm:bottom-20 sm:right-10"
           style={{ zIndex: 60 }}
         >
           <a
