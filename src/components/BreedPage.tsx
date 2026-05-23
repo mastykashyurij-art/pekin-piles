@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { ArrowLeft } from 'lucide-react';
 import { Howler } from 'howler';
 import { sfx } from '../sounds';
@@ -32,6 +32,13 @@ const SECTIONS = [
 
 export default function BreedPage() {
   const bannerRef = useRef<HTMLDivElement>(null);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 640);
+
+  useEffect(() => {
+    const onResize = () => setIsMobile(window.innerWidth < 640);
+    window.addEventListener('resize', onResize);
+    return () => window.removeEventListener('resize', onResize);
+  }, []);
 
   useEffect(() => {
     const el = bannerRef.current;
@@ -69,74 +76,149 @@ export default function BreedPage() {
     };
   }, []);
 
-  return (
-    <div
-      style={{ fontFamily: "'Inter', sans-serif", backgroundColor: '#fff', minHeight: '100vh' }}
+  const backButton = (
+    <button
+      onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+      style={{
+        position: 'absolute',
+        top: 20,
+        left: 20,
+        display: 'flex',
+        alignItems: 'center',
+        gap: 8,
+        background: 'transparent',
+        border: '2px solid rgba(255,255,255,0.4)',
+        color: 'white',
+        borderRadius: 999,
+        padding: '7px 16px',
+        cursor: 'pointer',
+        fontFamily: "'Inter', sans-serif",
+        fontSize: 12,
+        fontWeight: 600,
+        letterSpacing: '0.08em',
+        textTransform: 'uppercase' as const,
+        transition: 'border-color 200ms, background 200ms',
+        zIndex: 10,
+      }}
+      onMouseEnter={e => {
+        (e.currentTarget as HTMLButtonElement).style.borderColor = 'white';
+        (e.currentTarget as HTMLButtonElement).style.background = 'rgba(255,255,255,0.1)';
+      }}
+      onMouseLeave={e => {
+        (e.currentTarget as HTMLButtonElement).style.borderColor = 'rgba(255,255,255,0.4)';
+        (e.currentTarget as HTMLButtonElement).style.background = 'transparent';
+      }}
     >
-      {/* Hero banner */}
-      <div
-        ref={bannerRef}
-        style={{
-          position: 'relative',
-          overflow: 'hidden',
-          width: '100%',
-          height: '100vh',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'flex-start',
-          justifyContent: 'flex-end',
-          padding: '0 clamp(20px, 8vw, 64px) clamp(32px, 6vh, 56px)',
-          backgroundImage: 'url(/KINGDOOGS.webp)',
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-        }}
-      >
-        {/* Dark overlay + top gradient continuation */}
-        <div style={{
-          position: 'absolute',
-          inset: 0,
-          background: 'linear-gradient(to bottom, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.3) 30%, rgba(0,0,0,0.3) 60%, rgba(0,0,0,0.7) 100%)',
-          pointerEvents: 'none',
-        }} />
-        {/* Back button */}
-        <button
-          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+      <ArrowLeft size={14} strokeWidth={2.25} />
+      Back
+    </button>
+  );
+
+  return (
+    <div style={{ fontFamily: "'Inter', sans-serif", backgroundColor: '#fff', minHeight: '100vh' }}>
+
+      {isMobile ? (
+        /* ── MOBILE HERO ── */
+        <div ref={bannerRef} style={{ position: 'relative', background: '#0d0d0d', overflow: 'hidden' }}>
+          {backButton}
+
+          {/* Image block — object-fit:contain shows BOTH dogs fully */}
+          <div style={{ width: '100%', aspectRatio: '4 / 3', position: 'relative', overflow: 'hidden' }}>
+            <img
+              src="/KINGDOOGS.webp"
+              alt="Pekingese dogs"
+              style={{
+                position: 'absolute',
+                inset: 0,
+                width: '100%',
+                height: '100%',
+                objectFit: 'contain',
+                objectPosition: 'center center',
+              }}
+            />
+            {/* Subtle vignette on sides */}
+            <div style={{
+              position: 'absolute',
+              inset: 0,
+              background: 'linear-gradient(to bottom, rgba(13,13,13,0.55) 0%, transparent 25%, transparent 75%, rgba(13,13,13,0.8) 100%)',
+              pointerEvents: 'none',
+            }} />
+          </div>
+
+          {/* Text panel below image */}
+          <div style={{
+            background: 'linear-gradient(to bottom, #0d0d0d 0%, #111 100%)',
+            padding: '28px 24px 40px',
+          }}>
+            <p style={{
+              fontFamily: "'Inter', sans-serif",
+              fontSize: 10,
+              fontWeight: 700,
+              letterSpacing: '0.22em',
+              textTransform: 'uppercase',
+              color: 'rgba(255,255,255,0.4)',
+              margin: '0 0 10px',
+            }}>
+              Breed Profile
+            </p>
+            <h1 style={{
+              fontFamily: "'Anton', sans-serif",
+              fontSize: 'clamp(52px, 18vw, 80px)',
+              fontWeight: 900,
+              color: 'white',
+              lineHeight: 0.92,
+              textTransform: 'uppercase',
+              letterSpacing: '-0.03em',
+              margin: '0 0 16px',
+            }}>
+              PEKINGESE
+            </h1>
+            <div style={{ width: 36, height: 3, background: 'rgba(255,255,255,0.3)', marginBottom: 16 }} />
+            <p style={{
+              fontSize: 14,
+              color: 'rgba(255,255,255,0.65)',
+              lineHeight: 1.65,
+              fontWeight: 400,
+              margin: 0,
+            }}>
+              The lion dog of ancient China — regal, devoted, and full of character.
+            </p>
+          </div>
+
+          {/* Fade to white into content */}
+          <div style={{
+            height: 48,
+            background: 'linear-gradient(to bottom, #111, #fff)',
+            pointerEvents: 'none',
+          }} />
+        </div>
+      ) : (
+        /* ── DESKTOP HERO ── */
+        <div
+          ref={bannerRef}
           style={{
-            position: 'absolute',
-            top: 24,
-            left: 24,
+            position: 'relative',
+            overflow: 'hidden',
+            width: '100%',
+            height: '100vh',
             display: 'flex',
-            alignItems: 'center',
-            gap: 8,
-            background: 'transparent',
-            border: '2px solid rgba(255,255,255,0.4)',
-            color: 'white',
-            borderRadius: 999,
-            padding: '8px 20px',
-            cursor: 'pointer',
-            fontFamily: "'Inter', sans-serif",
-            fontSize: 13,
-            fontWeight: 600,
-            letterSpacing: '0.08em',
-            textTransform: 'uppercase',
-            transition: 'border-color 200ms, background 200ms',
-          }}
-          onMouseEnter={e => {
-            (e.currentTarget as HTMLButtonElement).style.borderColor = 'white';
-            (e.currentTarget as HTMLButtonElement).style.background = 'rgba(255,255,255,0.08)';
-          }}
-          onMouseLeave={e => {
-            (e.currentTarget as HTMLButtonElement).style.borderColor = 'rgba(255,255,255,0.4)';
-            (e.currentTarget as HTMLButtonElement).style.background = 'transparent';
+            flexDirection: 'column',
+            alignItems: 'flex-start',
+            justifyContent: 'flex-end',
+            padding: '0 64px 56px',
+            backgroundImage: 'url(/KINGDOOGS.webp)',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
           }}
         >
-          <ArrowLeft size={16} strokeWidth={2.25} />
-          Back
-        </button>
-
-
-        <h1
-          style={{
+          <div style={{
+            position: 'absolute',
+            inset: 0,
+            background: 'linear-gradient(to bottom, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.3) 30%, rgba(0,0,0,0.3) 60%, rgba(0,0,0,0.7) 100%)',
+            pointerEvents: 'none',
+          }} />
+          {backButton}
+          <h1 style={{
             fontFamily: "'Anton', sans-serif",
             fontSize: 'clamp(56px, 12vw, 160px)',
             fontWeight: 900,
@@ -146,92 +228,84 @@ export default function BreedPage() {
             letterSpacing: '-0.03em',
             margin: 0,
             position: 'relative',
-          }}
-        >
-          PEKINGESE
-        </h1>
-        <p
-          style={{
+          }}>
+            PEKINGESE
+          </h1>
+          <p style={{
             marginTop: 20,
             fontSize: 'clamp(15px, 1.4vw, 20px)',
             color: 'rgba(255,255,255,0.75)',
-            maxWidth: 'min(520px, 90vw)',
+            maxWidth: 520,
             lineHeight: 1.6,
             fontWeight: 400,
             position: 'relative',
-          }}
-        >
-          The lion dog of ancient China — regal, devoted, and full of character.
-        </p>
-
-        {/* Bottom gradient into content section */}
-        <div style={{
-          position: 'absolute',
-          bottom: 0,
-          left: 0,
-          right: 0,
-          height: '180px',
-          background: 'linear-gradient(to bottom, transparent, #ffffff)',
-          pointerEvents: 'none',
-        }} />
-      </div>
+          }}>
+            The lion dog of ancient China — regal, devoted, and full of character.
+          </p>
+          <div style={{
+            position: 'absolute',
+            bottom: 0, left: 0, right: 0,
+            height: '180px',
+            background: 'linear-gradient(to bottom, transparent, #ffffff)',
+            pointerEvents: 'none',
+          }} />
+        </div>
+      )}
 
       {/* Content grid */}
       <div
         style={{
           maxWidth: 1100,
           margin: '0 auto',
-          padding: 'clamp(40px, 8vh, 72px) clamp(16px, 4vw, 24px) clamp(56px, 10vh, 96px)',
+          padding: isMobile
+            ? '40px 20px 64px'
+            : '72px 24px 96px',
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(min(300px, 100%), 1fr))',
-          gap: 'clamp(28px, 5vw, 48px)',
+          gridTemplateColumns: isMobile
+            ? '1fr'
+            : 'repeat(auto-fit, minmax(300px, 1fr))',
+          gap: isMobile ? 0 : 48,
         }}
       >
-        {SECTIONS.map(({ title, body }) => (
-          <div key={title}>
-            <p
-              style={{
-                fontFamily: "'Inter', sans-serif",
-                fontSize: 11,
-                fontWeight: 700,
-                letterSpacing: '0.2em',
-                textTransform: 'uppercase',
-                color: '#999',
-                marginBottom: 12,
-              }}
-            >
+        {SECTIONS.map(({ title, body }, idx) => (
+          <div
+            key={title}
+            style={isMobile ? {
+              borderBottom: idx < SECTIONS.length - 1 ? '1px solid #ebebeb' : 'none',
+              padding: '28px 0',
+            } : {}}
+          >
+            <p style={{
+              fontFamily: "'Inter', sans-serif",
+              fontSize: 11,
+              fontWeight: 700,
+              letterSpacing: '0.2em',
+              textTransform: 'uppercase',
+              color: '#999',
+              margin: '0 0 10px',
+            }}>
               {title}
             </p>
-            <h2
-              style={{
-                fontFamily: "'Anton', sans-serif",
-                fontSize: 'clamp(28px, 4vw, 42px)',
-                fontWeight: 900,
-                color: '#111',
-                lineHeight: 1.05,
-                textTransform: 'uppercase',
-                letterSpacing: '-0.01em',
-                marginBottom: 16,
-              }}
-            >
+            <h2 style={{
+              fontFamily: "'Anton', sans-serif",
+              fontSize: isMobile ? 'clamp(26px, 7vw, 34px)' : 'clamp(28px, 4vw, 42px)',
+              fontWeight: 900,
+              color: '#111',
+              lineHeight: 1.05,
+              textTransform: 'uppercase',
+              letterSpacing: '-0.01em',
+              margin: '0 0 12px',
+            }}>
               {title}
             </h2>
-            <div
-              style={{
-                width: 32,
-                height: 3,
-                backgroundColor: '#111',
-                marginBottom: 20,
-              }}
-            />
-            <p
-              style={{
-                fontSize: 15,
-                lineHeight: 1.75,
-                color: '#444',
-                fontWeight: 400,
-              }}
-            >
+            <div style={{ width: 28, height: 3, backgroundColor: '#111', marginBottom: 14 }} />
+            <p style={{
+              fontSize: isMobile ? 14 : 15,
+              lineHeight: 1.75,
+              color: '#444',
+              fontWeight: 400,
+              margin: 0,
+            }}>
               {body}
             </p>
           </div>
@@ -239,26 +313,21 @@ export default function BreedPage() {
       </div>
 
       {/* Footer strip */}
-      <div
-        style={{
-          backgroundColor: '#111',
-          padding: '28px 24px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          gap: 12,
-        }}
-      >
-        <span
-          style={{
-            fontFamily: "'Anton', sans-serif",
-            fontSize: 'clamp(14px, 2vw, 20px)',
-            color: 'white',
-            opacity: 0.5,
-            letterSpacing: '0.14em',
-            textTransform: 'uppercase',
-          }}
-        >
+      <div style={{
+        backgroundColor: '#111',
+        padding: '24px 20px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}>
+        <span style={{
+          fontFamily: "'Anton', sans-serif",
+          fontSize: 'clamp(13px, 2vw, 20px)',
+          color: 'white',
+          opacity: 0.5,
+          letterSpacing: '0.14em',
+          textTransform: 'uppercase',
+        }}>
           PEKIN PILES — TOONHUB
         </span>
       </div>
