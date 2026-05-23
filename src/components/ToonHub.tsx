@@ -80,17 +80,6 @@ export default function ToonHub() {
   const [clickedIndex, setClickedIndex] = useState<number | null>(null);
   const touchStartX = useRef<number | null>(null);
 
-  const handleTouchStart = useCallback((e: React.TouchEvent) => {
-    touchStartX.current = e.touches[0].clientX;
-  }, []);
-
-  const handleTouchEnd = useCallback((e: React.TouchEvent) => {
-    if (touchStartX.current === null) return;
-    const diff = touchStartX.current - e.changedTouches[0].clientX;
-    if (Math.abs(diff) > 50) navigate(diff > 0 ? 'next' : 'prev');
-    touchStartX.current = null;
-  }, [navigate]);
-
   useEffect(() => {
     IMAGES.forEach(({ src }) => {
       const img = new Image();
@@ -110,6 +99,17 @@ export default function ToonHub() {
     setActiveIndex((prev) => dir === 'next' ? (prev + 1) % 4 : (prev + 3) % 4);
     setTimeout(() => setIsAnimating(false), 650);
   }, [isAnimating]);
+
+  const handleTouchStart = useCallback((e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX;
+  }, []);
+
+  const handleTouchEnd = useCallback((e: React.TouchEvent) => {
+    if (touchStartX.current === null) return;
+    const diff = touchStartX.current - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 50) navigate(diff > 0 ? 'next' : 'prev');
+    touchStartX.current = null;
+  }, [navigate]);
 
   const center = activeIndex;
   const left = (activeIndex + 3) % 4;
