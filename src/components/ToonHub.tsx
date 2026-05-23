@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback, useRef } from 'react';
 import { ArrowLeft, ArrowRight, PawPrint } from 'lucide-react';
 import { sfx } from '../sounds';
 
@@ -78,6 +78,18 @@ export default function ToonHub() {
   const [isAnimating, setIsAnimating] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 640);
   const [clickedIndex, setClickedIndex] = useState<number | null>(null);
+  const touchStartX = useRef<number | null>(null);
+
+  const handleTouchStart = useCallback((e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX;
+  }, []);
+
+  const handleTouchEnd = useCallback((e: React.TouchEvent) => {
+    if (touchStartX.current === null) return;
+    const diff = touchStartX.current - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 50) navigate(diff > 0 ? 'next' : 'prev');
+    touchStartX.current = null;
+  }, [navigate]);
 
   useEffect(() => {
     IMAGES.forEach(({ src }) => {
@@ -183,7 +195,12 @@ export default function ToonHub() {
       }}
       className="relative w-full overflow-hidden"
     >
-      <div className="relative w-full" style={{ height: '100vh', overflow: 'hidden' }}>
+      <div
+        className="relative w-full"
+        style={{ height: '100vh', overflow: 'hidden' }}
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
+      >
 
         {/* Grain overlay */}
         <div
@@ -319,12 +336,12 @@ export default function ToonHub() {
           aria-label="Previous"
           style={{
             position: 'absolute',
-            left: '24px',
+            left: isMobile ? '10px' : '24px',
             top: '50%',
             transform: 'translateY(-50%)',
             zIndex: 60,
-            width: 56,
-            height: 56,
+            width: isMobile ? 40 : 56,
+            height: isMobile ? 40 : 56,
             borderRadius: '50%',
             backgroundColor: 'transparent',
             border: '2px solid white',
@@ -344,7 +361,7 @@ export default function ToonHub() {
             (e.currentTarget as HTMLButtonElement).style.backgroundColor = 'transparent';
           }}
         >
-          <ArrowLeft size={26} strokeWidth={2.25} />
+          <ArrowLeft size={isMobile ? 18 : 26} strokeWidth={2.25} />
         </button>
 
         {/* Right arrow */}
@@ -353,12 +370,12 @@ export default function ToonHub() {
           aria-label="Next"
           style={{
             position: 'absolute',
-            right: '24px',
+            right: isMobile ? '10px' : '24px',
             top: '50%',
             transform: 'translateY(-50%)',
             zIndex: 60,
-            width: 56,
-            height: 56,
+            width: isMobile ? 40 : 56,
+            height: isMobile ? 40 : 56,
             borderRadius: '50%',
             backgroundColor: 'transparent',
             border: '2px solid white',
@@ -378,7 +395,7 @@ export default function ToonHub() {
             (e.currentTarget as HTMLButtonElement).style.backgroundColor = 'transparent';
           }}
         >
-          <ArrowRight size={26} strokeWidth={2.25} />
+          <ArrowRight size={isMobile ? 18 : 26} strokeWidth={2.25} />
         </button>
 
         {/* Bottom gradient — blends into breed page */}

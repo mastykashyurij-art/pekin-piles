@@ -66,7 +66,7 @@ export default function BreedPage() {
           flexDirection: 'column',
           alignItems: 'flex-start',
           justifyContent: 'flex-end',
-          padding: '0 64px 56px',
+          padding: '0 clamp(20px, 8vw, 64px) clamp(32px, 6vh, 56px)',
           backgroundImage: 'url(/KINGDOOGS.webp)',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
@@ -136,7 +136,7 @@ export default function BreedPage() {
             marginTop: 20,
             fontSize: 'clamp(15px, 1.4vw, 20px)',
             color: 'rgba(255,255,255,0.75)',
-            maxWidth: 520,
+            maxWidth: 'min(520px, 90vw)',
             lineHeight: 1.6,
             fontWeight: 400,
             position: 'relative',
@@ -162,10 +162,10 @@ export default function BreedPage() {
         style={{
           maxWidth: 1100,
           margin: '0 auto',
-          padding: '72px 24px 96px',
+          padding: 'clamp(40px, 8vh, 72px) clamp(16px, 4vw, 24px) clamp(56px, 10vh, 96px)',
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-          gap: 48,
+          gridTemplateColumns: 'repeat(auto-fit, minmax(min(300px, 100%), 1fr))',
+          gap: 'clamp(28px, 5vw, 48px)',
         }}
       >
         {SECTIONS.map(({ title, body }) => (
