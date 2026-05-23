@@ -226,21 +226,43 @@ export default function ToonHub() {
           className="absolute inset-x-0 flex items-center justify-center pointer-events-none select-none"
           style={{ zIndex: 2, top: '18%' }}
         >
-          <span
-            style={{
-              fontFamily: "'Anton', sans-serif",
-              fontSize: 'clamp(90px, 28vw, 380px)',
-              fontWeight: 900,
-              color: 'white',
-              opacity: 1,
-              lineHeight: 1,
-              textTransform: 'uppercase',
-              letterSpacing: '-0.02em',
-              whiteSpace: 'nowrap',
-            }}
-          >
-            Pekin Piles
-          </span>
+          {isMobile ? (
+            // Stack words so each 5-char word fits within phone width
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', lineHeight: 0.9 }}>
+              {['Pekin', 'Piles'].map(word => (
+                <span
+                  key={word}
+                  style={{
+                    fontFamily: "'Anton', sans-serif",
+                    fontSize: 'clamp(90px, 28vw, 380px)',
+                    fontWeight: 900,
+                    color: 'white',
+                    lineHeight: 0.9,
+                    textTransform: 'uppercase',
+                    letterSpacing: '-0.02em',
+                    whiteSpace: 'nowrap',
+                  }}
+                >
+                  {word}
+                </span>
+              ))}
+            </div>
+          ) : (
+            <span
+              style={{
+                fontFamily: "'Anton', sans-serif",
+                fontSize: 'clamp(90px, 28vw, 380px)',
+                fontWeight: 900,
+                color: 'white',
+                lineHeight: 1,
+                textTransform: 'uppercase',
+                letterSpacing: '-0.02em',
+                whiteSpace: 'nowrap',
+              }}
+            >
+              Pekin Piles
+            </span>
+          )}
         </div>
 
         {/* Brand label */}
