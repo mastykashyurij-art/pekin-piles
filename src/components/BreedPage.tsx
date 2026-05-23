@@ -118,77 +118,66 @@ export default function BreedPage() {
     <div style={{ fontFamily: "'Inter', sans-serif", backgroundColor: '#fff', minHeight: '100vh' }}>
 
       {isMobile ? (
-        /* ── MOBILE HERO ── */
-        <div ref={bannerRef} style={{ position: 'relative', background: '#0d0d0d', overflow: 'hidden' }}>
+        /* ── MOBILE HERO — full-screen close-up of both dogs, text at bottom-centre ── */
+        <div
+          ref={bannerRef}
+          style={{
+            position: 'relative',
+            width: '100%',
+            height: '100vh',
+            overflow: 'hidden',
+            backgroundImage: 'url(/KINGDOOGS.webp)',
+            backgroundSize: 'cover',
+            backgroundPosition: '50% 55%',   // zooms into the dogs' faces
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'flex-end',
+            padding: '0 24px 64px',
+          }}
+        >
+          {/* Gradient — clear in middle, dark at bottom for text legibility */}
+          <div style={{
+            position: 'absolute',
+            inset: 0,
+            background: 'linear-gradient(to bottom, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.05) 35%, rgba(0,0,0,0.05) 50%, rgba(0,0,0,0.72) 78%, rgba(0,0,0,0.88) 100%)',
+            pointerEvents: 'none',
+          }} />
+
           {backButton}
 
-          {/* Image block — object-fit:contain shows BOTH dogs fully */}
-          <div style={{ width: '100%', aspectRatio: '4 / 3', position: 'relative', overflow: 'hidden' }}>
-            <img
-              src="/KINGDOOGS.webp"
-              alt="Pekingese dogs"
-              style={{
-                position: 'absolute',
-                inset: 0,
-                width: '100%',
-                height: '100%',
-                objectFit: 'contain',
-                objectPosition: 'center center',
-              }}
-            />
-            {/* Subtle vignette on sides */}
-            <div style={{
-              position: 'absolute',
-              inset: 0,
-              background: 'linear-gradient(to bottom, rgba(13,13,13,0.55) 0%, transparent 25%, transparent 75%, rgba(13,13,13,0.8) 100%)',
-              pointerEvents: 'none',
-            }} />
-          </div>
-
-          {/* Text panel below image */}
-          <div style={{
-            background: 'linear-gradient(to bottom, #0d0d0d 0%, #111 100%)',
-            padding: '28px 24px 40px',
-          }}>
-            <p style={{
-              fontFamily: "'Inter', sans-serif",
-              fontSize: 10,
-              fontWeight: 700,
-              letterSpacing: '0.22em',
-              textTransform: 'uppercase',
-              color: 'rgba(255,255,255,0.4)',
-              margin: '0 0 10px',
-            }}>
-              Breed Profile
-            </p>
+          {/* Text — centred at bottom */}
+          <div style={{ position: 'relative', zIndex: 5, textAlign: 'center' }}>
             <h1 style={{
               fontFamily: "'Anton', sans-serif",
-              fontSize: 'clamp(52px, 18vw, 80px)',
+              fontSize: 'clamp(48px, 16vw, 72px)',
               fontWeight: 900,
               color: 'white',
               lineHeight: 0.92,
               textTransform: 'uppercase',
               letterSpacing: '-0.03em',
-              margin: '0 0 16px',
+              margin: '0 0 14px',
             }}>
               PEKINGESE
             </h1>
-            <div style={{ width: 36, height: 3, background: 'rgba(255,255,255,0.3)', marginBottom: 16 }} />
+            <div style={{ width: 36, height: 3, background: 'rgba(255,255,255,0.55)', margin: '0 auto 14px' }} />
             <p style={{
               fontSize: 14,
-              color: 'rgba(255,255,255,0.65)',
+              color: 'rgba(255,255,255,0.82)',
               lineHeight: 1.65,
               fontWeight: 400,
               margin: 0,
             }}>
-              The lion dog of ancient China — regal, devoted, and full of character.
+              The lion dog of ancient China —<br />regal, devoted, and full of character.
             </p>
           </div>
 
-          {/* Fade to white into content */}
+          {/* Fade into white content below */}
           <div style={{
-            height: 48,
-            background: 'linear-gradient(to bottom, #111, #fff)',
+            position: 'absolute',
+            bottom: 0, left: 0, right: 0,
+            height: 56,
+            background: 'linear-gradient(to bottom, transparent, #ffffff)',
             pointerEvents: 'none',
           }} />
         </div>
