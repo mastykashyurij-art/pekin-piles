@@ -126,9 +126,9 @@ export default function BreedPage() {
             width: '100%',
             height: '100vh',
             overflow: 'hidden',
-            backgroundImage: 'url(/KINGDOOGS.webp)',
+            backgroundImage: 'url(/KINGDOOGS_MOBILE.webp)',
             backgroundSize: 'cover',
-            backgroundPosition: '50% 55%',   // zooms into the dogs' faces
+            backgroundPosition: 'center bottom',  // dogs fill bottom, dark top clips
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
