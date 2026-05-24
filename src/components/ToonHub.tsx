@@ -8,21 +8,25 @@ const IMAGES = [
     src: '/CANDYREADING.png', bg: '#7C3AED', panel: '#9F67F5',
     name: 'THE DAILY BARK',
     description: 'Wrapped in a velvet robe and armed with reading glasses, Candy starts every morning with the Canine Chronicle. No treat can interrupt her editorial hour. A true intellectual of the pack.',
+    clickSfx: 'pop' as const,
   },
   {
     src: '/DAISYBOARD.png', bg: '#0284C7', panel: '#38BDF8',
     name: 'SHRED QUEEN',
     description: "Daisy doesn't just hit the slopes — she owns them. Helmet on, board locked, she carves powder with the confidence of a seasoned pro. Fresh air and cold snow are her natural habitat.",
+    clickSfx: 'pop' as const,
   },
   {
     src: '/CANDYKIMONO.png', bg: '#16A34A', panel: '#4ADE80',
     name: 'IMPERIAL CANDY',
     description: 'Dressed in an ornate red kimono, Candy channels the elegance of ancient Japan. She picks up every sushi roll with chopstick precision and zero hesitation. Refinement runs in her blood.',
+    clickSfx: 'char_click' as const,
   },
   {
     src: '/DAISYMODNA.png', bg: '#881337', panel: '#BE1D4A',
     name: 'HOUSE OF DAISY',
     description: 'Daisy glides in wearing a floor-length black gown and a wide-brimmed statement hat. Her designer bag completes a look that belongs on the front row. Fashion week starts when she walks in.',
+    clickSfx: 'char_click' as const,
   },
 ];
 
@@ -271,7 +275,7 @@ export default function ToonHub() {
                 alt={`Character ${i + 1}`}
                 draggable={false}
                 onClick={() => {
-                  sfx.pop.play();
+                  sfx[img.clickSfx].play();
                   setClickedIndex(i);
                   setTimeout(() => setClickedIndex(null), 1000);
                 }}
