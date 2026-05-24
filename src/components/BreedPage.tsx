@@ -128,7 +128,7 @@ export default function BreedPage() {
             overflow: 'hidden',
             backgroundImage: 'url(/KINGDOOGS_MOBILE.webp)',
             backgroundSize: 'cover',
-            backgroundPosition: '45% top',  // canvas ratio 0.8 → cover fills height, 45% shifts to expose left dog
+            backgroundPosition: 'center top',
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
