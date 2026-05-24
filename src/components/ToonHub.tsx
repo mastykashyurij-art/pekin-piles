@@ -97,7 +97,7 @@ export default function ToonHub() {
     if (isAnimating) return;
     setIsAnimating(true);
     setActiveIndex((prev) => dir === 'next' ? (prev + 1) % 4 : (prev + 3) % 4);
-    setTimeout(() => setIsAnimating(false), isMobile ? 340 : 650);
+    setTimeout(() => setIsAnimating(false), 650);
   }, [isAnimating, isMobile]);
 
   const handleTouchStart = useCallback((e: React.TouchEvent) => {
@@ -118,7 +118,7 @@ export default function ToonHub() {
   const getRoleStyle = (index: number): React.CSSProperties => {
     // Mobile: only animate transform + opacity — no blur (GPU-expensive), no layout props
     // Desktop: full animation including blur and layout transitions
-    const mobileT = 'transform 340ms cubic-bezier(0.22,1,0.36,1), opacity 340ms cubic-bezier(0.22,1,0.36,1)';
+    const mobileT = 'transform 650ms cubic-bezier(0.4,0,0.2,1), opacity 650ms cubic-bezier(0.4,0,0.2,1)';
     const desktopT = 'transform 650ms cubic-bezier(0.4,0,0.2,1), filter 650ms cubic-bezier(0.4,0,0.2,1), opacity 650ms cubic-bezier(0.4,0,0.2,1), left 650ms cubic-bezier(0.4,0,0.2,1), bottom 650ms cubic-bezier(0.4,0,0.2,1), height 650ms cubic-bezier(0.4,0,0.2,1)';
     const transition = isMobile ? mobileT : desktopT;
     const willChange = isMobile ? 'transform, opacity' : 'transform, filter, opacity';
@@ -195,7 +195,7 @@ export default function ToonHub() {
     <div
       style={{
         backgroundColor: IMAGES[activeIndex].bg,
-        transition: `background-color ${isMobile ? 340 : 650}ms cubic-bezier(0.4,0,0.2,1)`,
+        transition: `background-color 650ms cubic-bezier(0.4,0,0.2,1)`,
         fontFamily: "'Inter', sans-serif",
       }}
       className="relative w-full overflow-hidden"
