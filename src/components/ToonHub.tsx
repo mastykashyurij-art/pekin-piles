@@ -336,7 +336,7 @@ export default function ToonHub() {
           <div
             style={{
               position: 'absolute',
-              top: '87%', left: 0, right: 0,
+              top: '70%', left: 0, right: 0,
               zIndex: 60,
               padding: '0 28px',
               textAlign: 'center',
