@@ -2,49 +2,6 @@ import { useEffect, useState, useCallback, useRef } from 'react';
 import { ArrowLeft, ArrowRight, PawPrint } from 'lucide-react';
 import { sfx } from '../sounds';
 
-function playBark() {
-  const ctx = new AudioContext();
-  const now = ctx.currentTime;
-
-  // Tonal "woof" — sawtooth sweep from ~320Hz down to ~160Hz
-  const osc = ctx.createOscillator();
-  osc.type = 'sawtooth';
-  osc.frequency.setValueAtTime(320, now);
-  osc.frequency.exponentialRampToValueAtTime(160, now + 0.18);
-
-  const oscGain = ctx.createGain();
-  oscGain.gain.setValueAtTime(0, now);
-  oscGain.gain.linearRampToValueAtTime(0.35, now + 0.01);
-  oscGain.gain.exponentialRampToValueAtTime(0.001, now + 0.22);
-
-  // Noise burst for breath/texture
-  const bufferSize = Math.ceil(ctx.sampleRate * 0.28);
-  const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
-  const data = buffer.getChannelData(0);
-  for (let i = 0; i < bufferSize; i++) data[i] = Math.random() * 2 - 1;
-
-  const noise = ctx.createBufferSource();
-  noise.buffer = buffer;
-
-  const bp = ctx.createBiquadFilter();
-  bp.type = 'bandpass';
-  bp.frequency.setValueAtTime(1100, now);
-  bp.frequency.exponentialRampToValueAtTime(500, now + 0.18);
-  bp.Q.value = 1.8;
-
-  const noiseGain = ctx.createGain();
-  noiseGain.gain.setValueAtTime(0, now);
-  noiseGain.gain.linearRampToValueAtTime(0.55, now + 0.008);
-  noiseGain.gain.exponentialRampToValueAtTime(0.001, now + 0.22);
-
-  osc.connect(oscGain).connect(ctx.destination);
-  noise.connect(bp).connect(noiseGain).connect(ctx.destination);
-
-  osc.start(now); osc.stop(now + 0.28);
-  noise.start(now); noise.stop(now + 0.28);
-
-  setTimeout(() => ctx.close(), 600);
-}
 
 const IMAGES = [
   {
