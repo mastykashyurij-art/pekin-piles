@@ -128,7 +128,7 @@ export default function BreedPage() {
             overflow: 'hidden',
             backgroundImage: 'url(/KINGDOOGS_MOBILE.webp)',
             backgroundSize: 'cover',
-            backgroundPosition: 'center top',
+            backgroundPosition: 'center center',
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
@@ -136,11 +136,11 @@ export default function BreedPage() {
             padding: '0 24px 64px',
           }}
         >
-          {/* Gradient — clear in middle, dark at bottom for text legibility */}
+          {/* Gradient — only bottom darkens for text legibility */}
           <div style={{
             position: 'absolute',
             inset: 0,
-            background: 'linear-gradient(to bottom, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.02) 30%, rgba(0,0,0,0.02) 50%, rgba(0,0,0,0.72) 78%, rgba(0,0,0,0.88) 100%)',
+            background: 'linear-gradient(to bottom, transparent 0%, transparent 55%, rgba(0,0,0,0.65) 80%, rgba(0,0,0,0.85) 100%)',
             pointerEvents: 'none',
           }} />
 
