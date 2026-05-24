@@ -128,7 +128,7 @@ export default function BreedPage() {
             overflow: 'hidden',
             backgroundImage: 'url(/KINGDOOGS_MOBILE.webp)',
             backgroundSize: 'cover',
-            backgroundPosition: 'center bottom',  // dogs fill bottom, dark top clips
+            backgroundPosition: '45% top',  // canvas ratio 0.8 → cover fills height, 45% shifts to expose left dog
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
@@ -140,7 +140,7 @@ export default function BreedPage() {
           <div style={{
             position: 'absolute',
             inset: 0,
-            background: 'linear-gradient(to bottom, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.05) 35%, rgba(0,0,0,0.05) 50%, rgba(0,0,0,0.72) 78%, rgba(0,0,0,0.88) 100%)',
+            background: 'linear-gradient(to bottom, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.02) 30%, rgba(0,0,0,0.02) 50%, rgba(0,0,0,0.72) 78%, rgba(0,0,0,0.88) 100%)',
             pointerEvents: 'none',
           }} />
 
