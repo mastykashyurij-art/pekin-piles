@@ -221,7 +221,7 @@ export default function ToonHub() {
           }}
         />
 
-        {/* Ghost text "Pekin Piles" */}
+        {/* Ghost text "Beijing Piles" */}
         <div
           className="absolute inset-x-0 flex items-center justify-center pointer-events-none select-none"
           style={{ zIndex: 2, top: '18%' }}
@@ -229,7 +229,7 @@ export default function ToonHub() {
           {isMobile ? (
             // Stack words so each 5-char word fits within phone width
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', lineHeight: 0.9 }}>
-              {['Pekin', 'Piles'].map(word => (
+              {['Beijing', 'Piles'].map(word => (
                 <span
                   key={word}
                   style={{
@@ -260,7 +260,7 @@ export default function ToonHub() {
                 whiteSpace: 'nowrap',
               }}
             >
-              Pekin Piles
+              Beijing Piles
             </span>
           )}
         </div>
