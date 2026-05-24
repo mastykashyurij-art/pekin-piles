@@ -267,7 +267,7 @@ export default function ToonHub() {
 
         {/* Brand label */}
         <button
-          onClick={() => { sfx.click.play(); playBark(); }}
+          onClick={() => { sfx.logo_click.play(); }}
           className="absolute top-6 left-4 sm:left-8 flex items-center gap-2"
           style={{
             zIndex: 60,
