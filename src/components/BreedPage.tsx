@@ -128,7 +128,7 @@ export default function BreedPage() {
             overflow: 'hidden',
             backgroundImage: 'url(/KINGDOOGS_MOBILE.webp)',
             backgroundSize: 'cover',
-            backgroundPosition: '25% center',
+            backgroundPosition: '10% center',
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
