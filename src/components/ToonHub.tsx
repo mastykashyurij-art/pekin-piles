@@ -8,13 +8,13 @@ const IMAGES = [
     src: '/CANDYREADING.png', bg: '#7C3AED', panel: '#9F67F5',
     name: 'THE DAILY BARK',
     description: 'Wrapped in a velvet robe and armed with reading glasses, Candy starts every morning with the Canine Chronicle. No treat can interrupt her editorial hour. A true intellectual of the pack.',
-    clickSfx: 'pop' as const,
+    clickSfx: 'candy_reading' as const,
   },
   {
     src: '/DAISYBOARD.png', bg: '#0284C7', panel: '#38BDF8',
     name: 'SHRED QUEEN',
     description: "Daisy doesn't just hit the slopes — she owns them. Helmet on, board locked, she carves powder with the confidence of a seasoned pro. Fresh air and cold snow are her natural habitat.",
-    clickSfx: 'pop' as const,
+    clickSfx: 'daisy_board' as const,
   },
   {
     src: '/CANDYKIMONO.png', bg: '#16A34A', panel: '#4ADE80',
@@ -26,7 +26,7 @@ const IMAGES = [
     src: '/DAISYMODNA.png', bg: '#881337', panel: '#BE1D4A',
     name: 'HOUSE OF DAISY',
     description: 'Daisy glides in wearing a floor-length black gown and a wide-brimmed statement hat. Her designer bag completes a look that belongs on the front row. Fashion week starts when she walks in.',
-    clickSfx: 'char_click' as const,
+    clickSfx: 'daisy_modna' as const,
   },
 ];
 
