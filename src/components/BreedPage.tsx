@@ -126,7 +126,9 @@ export default function BreedPage() {
             width: '100%',
             height: '100vh',
             overflow: 'hidden',
-            backgroundColor: '#1a0f08',
+            backgroundImage: 'url(/KINGDOOGS_MOBILE.webp)',
+            backgroundSize: 'cover',
+            backgroundPosition: '25% center',
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
@@ -134,23 +136,6 @@ export default function BreedPage() {
             padding: '0 24px 64px',
           }}
         >
-          {/* Background image — img tag gives precise left/right control */}
-          <img
-            src="/KINGDOOGS_MOBILE.webp"
-            alt=""
-            draggable={false}
-            style={{
-              position: 'absolute',
-              height: '100%',
-              width: 'auto',
-              top: 0,
-              left: '50%',
-              transform: 'translateX(-42%)',
-              pointerEvents: 'none',
-              userSelect: 'none',
-            }}
-          />
-
           {/* Gradient — only bottom darkens for text legibility */}
           <div style={{
             position: 'absolute',
