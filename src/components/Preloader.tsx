@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 
 const PRELOADER_VIDEO = '/preloader-candyjackson.mp4';
 const FALLBACK_TIMEOUT_MS = 15000;
+const MIN_DISPLAY_MS = 5000;
 // Intrinsic aspect ratio of the source clip (1244x1660), used to size the
 // sharp video's box so the progress bar hugs its true rendered edges.
 const VIDEO_ASPECT = 1244 / 1660;
@@ -12,6 +13,8 @@ export default function Preloader() {
   const [fading, setFading] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
   const doneRef = useRef({ page: false, video: false });
+  const startTimeRef = useRef(Date.now());
+  const finishScheduledRef = useRef(false);
 
   useEffect(() => {
     document.body.style.overflow = 'hidden';
@@ -26,7 +29,7 @@ export default function Preloader() {
     let raf: number;
     const tick = () => {
       setProgress((p) =>
-        doneRef.current.page && doneRef.current.video ? 100 : p + (90 - p) * 0.04,
+        doneRef.current.page && doneRef.current.video ? 100 : p + (90 - p) * 0.015,
       );
       raf = requestAnimationFrame(tick);
     };
@@ -36,10 +39,15 @@ export default function Preloader() {
 
   useEffect(() => {
     const checkDone = () => {
-      if (doneRef.current.page && doneRef.current.video) {
+      if (!doneRef.current.page || !doneRef.current.video || finishScheduledRef.current) return;
+      finishScheduledRef.current = true;
+
+      const elapsed = Date.now() - startTimeRef.current;
+      const remaining = Math.max(0, MIN_DISPLAY_MS - elapsed);
+      setTimeout(() => {
         setProgress(100);
         setTimeout(() => setFading(true), 300);
-      }
+      }, remaining);
     };
 
     const onPageLoad = () => {
