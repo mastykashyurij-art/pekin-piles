@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 
 const PRELOADER_VIDEO = '/preloader-candyjackson.mp4';
 const FALLBACK_TIMEOUT_MS = 15000;
-const MIN_DISPLAY_MS = 5000;
+const MIN_DISPLAY_MS = 4000;
 // Intrinsic aspect ratio of the source clip (1244x1660), used to size the
 // sharp video's box so the progress bar hugs its true rendered edges.
 const VIDEO_ASPECT = 1244 / 1660;
@@ -23,18 +23,22 @@ export default function Preloader() {
     };
   }, []);
 
-  // Eases toward 90% while real loading happens in the background, so the
-  // bar never looks "finished" before the site actually is.
+  // Bar fills in step with actual video playback (currentTime/duration),
+  // capped below 100 until loading is confirmed done. Never regresses, so a
+  // loop (if real loading outruns the clip) just holds the bar at its cap
+  // instead of visibly resetting.
   useEffect(() => {
-    let raf: number;
-    const tick = () => {
-      setProgress((p) =>
-        doneRef.current.page && doneRef.current.video ? 100 : p + (90 - p) * 0.015,
-      );
-      raf = requestAnimationFrame(tick);
+    const video = videoRef.current;
+    if (!video) return;
+
+    const onTimeUpdate = () => {
+      if (finishScheduledRef.current || !video.duration) return;
+      const pct = Math.min(99, (video.currentTime / video.duration) * 100);
+      setProgress((prev) => Math.max(prev, pct));
     };
-    raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
+
+    video.addEventListener('timeupdate', onTimeUpdate);
+    return () => video.removeEventListener('timeupdate', onTimeUpdate);
   }, []);
 
   useEffect(() => {
