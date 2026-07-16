@@ -9,5 +9,6 @@ export const sfx = {
   daisy_modna:   new Howl({ src: ['/sounds/daisy_modna.wav'],   volume: 1.0 }),
   daisy_board:   new Howl({ src: ['/sounds/daisy_board.wav'],   volume: 1.0 }),
   candy_reading: new Howl({ src: ['/sounds/candy_reading.wav'], volume: 1.0 }),
-  chinese:    new Howl({ src: ['/sounds/chinese_music.mp3'], volume: 0.45, loop: true }),
+  chinese:       new Howl({ src: ['/sounds/chinese_music.mp3'], volume: 0.45, loop: true }),
+  arrow_swoosh:  new Howl({ src: ['/sounds/arrow_swoosh.wav'], volume: 0.8 }),
 };

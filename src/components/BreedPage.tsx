@@ -1,32 +1,32 @@
 import { useEffect, useRef, useState } from 'react';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { Howler } from 'howler';
 import { sfx } from '../sounds';
 
 const SECTIONS = [
   {
-    title: 'ORIGIN',
-    body: 'The Pekingese is one of the oldest dog breeds in the world, originating in ancient China over 2,000 years ago. They were exclusively bred for the imperial family of the Chinese Tang Dynasty and were considered sacred companions of Chinese emperors. Commoners were required to bow in their presence.',
+    title: 'POCHODZENIE',
+    body: 'Pekińczyk jest jedną z najstarszych ras psów na świecie, wywodzącą się ze starożytnych Chin sprzed ponad 2000 lat. Był hodowany wyłącznie dla rodziny cesarskiej dynastii Tang i uważany za świętego towarzysza chińskich imperatorów. Zwykli ludzie musieli kłaniać mu się w pas.',
   },
   {
-    title: 'APPEARANCE',
-    body: 'Pekingese are compact, stocky dogs with a distinctive flat face, large dark eyes, and a luxurious double coat that forms a mane around the neck and shoulders. They typically weigh between 7–14 lbs and stand 6–9 inches tall. Their coat comes in all colors including red, gold, sable, black, and cream.',
+    title: 'WYGLĄD',
+    body: 'Pekińczyk to zwarty, krępy pies o charakterystycznej płaskiej mordzie, dużych ciemnych oczach i luksusowej podwójnej sierści tworzącej grzywę wokół szyi i barków. Zazwyczaj waży od 3 do 6 kg i mierzy 15–23 cm w kłębie. Jego szata występuje we wszystkich kolorach: rudym, złotym, sablowym, czarnym i kremowym.',
   },
   {
-    title: 'PERSONALITY',
-    body: 'Bold, confident, and affectionate — Pekingese have the heart of a lion in a small body. They are loyal to their family, dignified in manner, and surprisingly independent. They form deep bonds with their owners but can be aloof with strangers. They carry themselves with an unmistakable imperial air.',
+    title: 'OSOBOWOŚĆ',
+    body: 'Odważny, pewny siebie i czuły — pekińczyk kryje lwie serce w małym ciele. Jest wierny rodzinie, pełen godności i zaskakująco niezależny. Tworzy głębokie więzi z właścicielem, lecz wobec obcych bywa powściągliwy. Nosi się z nieomylną cesarską gracją.',
   },
   {
-    title: 'CARE & GROOMING',
-    body: 'Their long double coat requires regular brushing — ideally several times a week — to prevent matting and tangling. Due to their flat face (brachycephalic), they are sensitive to heat and should be kept cool. Daily cleaning of facial folds is essential. They enjoy short walks but are not high-energy dogs.',
+    title: 'PIELĘGNACJA',
+    body: 'Długa podwójna sierść wymaga regularnego szczotkowania — najlepiej kilka razy w tygodniu — aby zapobiec kołtunieniu i splątaniu. Ze względu na płaską mordę (budowa brachycefaliczna) pekińczyki źle znoszą upały i wymagają chłodnego otoczenia. Codzienne czyszczenie fałdek na twarzy jest niezbędne. Lubią krótkie spacery, ale nie są psami wymagającymi dużej aktywności.',
   },
   {
-    title: 'HEALTH',
-    body: 'Pekingese are generally healthy with a lifespan of 12–15 years. Common health considerations include brachycephalic airway syndrome, eye conditions due to their prominent eyes, and intervertebral disc disease. Regular vet check-ups, weight management, and proper grooming keep them thriving.',
+    title: 'ZDROWIE',
+    body: 'Pekińczyki są zazwyczaj zdrowe i żyją od 12 do 15 lat. Do najczęstszych problemów zdrowotnych należą: zespół brachycefaliczny, schorzenia oczu wynikające z ich wyrazistej budowy oraz choroba krążków międzykręgowych. Regularne wizyty u weterynarza, kontrola wagi i właściwa pielęgnacja zapewniają im długie, szczęśliwe życie.',
   },
   {
-    title: 'FUN FACTS',
-    body: 'In ancient China, stealing a Pekingese was punishable by death. When the British invaded Beijing in 1860, five Pekingese were found guarding the body of their owner and brought back to England — one was gifted to Queen Victoria, who named her "Looty." They have been AKC-recognized since 1906.',
+    title: 'CIEKAWOSTKI',
+    body: 'W starożytnych Chinach kradzież pekińczyka karana była śmiercią. Gdy Brytyjczycy wkroczyli do Pekinu w 1860 roku, znaleźli pięć pekińczyków strzegących ciała swojej pani — jeden z nich trafił w prezencie do królowej Wiktorii, która nadała mu imię „Looty". Rasa jest oficjalnie uznana przez AKC od 1906 roku.',
   },
 ];
 
@@ -79,6 +79,7 @@ export default function BreedPage() {
   const backButton = (
     <button
       onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+      aria-label="Wróć"
       style={{
         position: 'absolute',
         top: 20,
@@ -110,7 +111,7 @@ export default function BreedPage() {
       }}
     >
       <ArrowLeft size={14} strokeWidth={2.25} />
-      Back
+      Wróć
     </button>
   );
 
@@ -157,8 +158,9 @@ export default function BreedPage() {
               textTransform: 'uppercase',
               letterSpacing: '-0.03em',
               margin: '0 0 14px',
+              textShadow: '0 4px 24px rgba(0,0,0,0.35), 0 2px 8px rgba(0,0,0,0.25)',
             }}>
-              PEKINGESE
+              PEKIŃCZYK
             </h1>
             <div style={{ width: 36, height: 3, background: 'rgba(255,255,255,0.55)', margin: '0 auto 14px' }} />
             <p style={{
@@ -166,10 +168,34 @@ export default function BreedPage() {
               color: 'rgba(255,255,255,0.82)',
               lineHeight: 1.65,
               fontWeight: 400,
-              margin: 0,
+              margin: '0 0 20px',
             }}>
-              The lion dog of ancient China —<br />regal, devoted, and full of character.
+              Lwi pies starożytnych Chin —<br />dostojny, oddany i pełen charakteru.
             </p>
+            <a
+              href="#breed-content"
+              onClick={e => { e.preventDefault(); document.getElementById('breed-content')?.scrollIntoView({ behavior: 'smooth' }); }}
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 8,
+                fontFamily: "'Anton', sans-serif",
+                fontSize: 'clamp(18px, 5vw, 28px)',
+                fontWeight: 400,
+                color: 'white',
+                opacity: 0.95,
+                letterSpacing: '-0.02em',
+                lineHeight: 1,
+                textTransform: 'uppercase',
+                textDecoration: 'none',
+                transition: 'opacity 200ms',
+              }}
+              onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.opacity = '1'; }}
+              onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.opacity = '0.95'; }}
+            >
+              CZYTAJ OPIS
+              <ArrowRight size={20} strokeWidth={2.25} />
+            </a>
           </div>
 
           {/* Fade into white content below */}
@@ -190,11 +216,6 @@ export default function BreedPage() {
             overflow: 'hidden',
             width: '100%',
             height: '100vh',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'flex-start',
-            justifyContent: 'flex-end',
-            padding: '0 64px 56px',
             backgroundImage: 'url(/KINGDOOGS.webp)',
             backgroundSize: 'cover',
             backgroundPosition: 'center',
@@ -207,30 +228,70 @@ export default function BreedPage() {
             pointerEvents: 'none',
           }} />
           {backButton}
-          <h1 style={{
-            fontFamily: "'Anton', sans-serif",
-            fontSize: 'clamp(56px, 12vw, 160px)',
-            fontWeight: 900,
-            color: 'white',
-            lineHeight: 0.95,
-            textTransform: 'uppercase',
-            letterSpacing: '-0.03em',
-            margin: 0,
-            position: 'relative',
+
+          {/* Text block — top right */}
+          <div style={{
+            position: 'absolute',
+            top: 56,
+            right: 64,
+            textAlign: 'right',
+            zIndex: 10,
           }}>
-            PEKINGESE
-          </h1>
-          <p style={{
-            marginTop: 20,
-            fontSize: 'clamp(15px, 1.4vw, 20px)',
-            color: 'rgba(255,255,255,0.75)',
-            maxWidth: 520,
-            lineHeight: 1.6,
-            fontWeight: 400,
-            position: 'relative',
-          }}>
-            The lion dog of ancient China — regal, devoted, and full of character.
-          </p>
+            <h1 style={{
+              fontFamily: "'Anton', sans-serif",
+              fontSize: 'clamp(56px, 12vw, 160px)',
+              fontWeight: 900,
+              color: 'white',
+              lineHeight: 0.95,
+              textTransform: 'uppercase',
+              letterSpacing: '-0.03em',
+              margin: '0 0 16px',
+              textShadow: '0 4px 24px rgba(0,0,0,0.35), 0 2px 8px rgba(0,0,0,0.25)',
+            }}>
+              PEKIŃCZYK
+            </h1>
+            <p style={{
+              fontSize: 'clamp(15px, 1.4vw, 20px)',
+              color: 'rgba(255,255,255,0.75)',
+              maxWidth: 420,
+              lineHeight: 1.6,
+              fontWeight: 400,
+              margin: '0 0 24px',
+              marginLeft: 'auto',
+            }}>
+              Lwi pies starożytnych Chin — dostojny, oddany i pełen charakteru.
+            </p>
+          </div>
+
+          {/* CZYTAJ OPIS — bottom left */}
+          <a
+            href="#breed-content"
+            onClick={e => { e.preventDefault(); document.getElementById('breed-content')?.scrollIntoView({ behavior: 'smooth' }); }}
+            style={{
+              position: 'absolute',
+              bottom: 56,
+              left: 64,
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 10,
+              fontFamily: "'Anton', sans-serif",
+              fontSize: 'clamp(20px, 4vw, 56px)',
+              fontWeight: 400,
+              color: 'white',
+              opacity: 0.95,
+              letterSpacing: '-0.02em',
+              lineHeight: 1,
+              textTransform: 'uppercase',
+              textDecoration: 'none',
+              transition: 'opacity 200ms',
+              zIndex: 10,
+            }}
+            onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.opacity = '1'; }}
+            onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.opacity = '0.95'; }}
+          >
+            CZYTAJ OPIS
+            <ArrowRight className="w-5 h-5 sm:w-8 sm:h-8" strokeWidth={2.25} />
+          </a>
           <div style={{
             position: 'absolute',
             bottom: 0, left: 0, right: 0,
@@ -243,6 +304,7 @@ export default function BreedPage() {
 
       {/* Content grid */}
       <div
+        id="breed-content"
         style={{
           maxWidth: 1100,
           margin: '0 auto',
@@ -309,16 +371,26 @@ export default function BreedPage() {
         alignItems: 'center',
         justifyContent: 'center',
       }}>
-        <span style={{
-          fontFamily: "'Anton', sans-serif",
-          fontSize: 'clamp(13px, 2vw, 20px)',
-          color: 'white',
-          opacity: 0.5,
-          letterSpacing: '0.14em',
-          textTransform: 'uppercase',
-        }}>
-          PEKIN PILES — TOONHUB
-        </span>
+        <button
+          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+          style={{
+            fontFamily: "'Anton', sans-serif",
+            fontSize: 'clamp(13px, 2vw, 20px)',
+            color: 'white',
+            opacity: 0.5,
+            letterSpacing: '0.14em',
+            textTransform: 'uppercase',
+            background: 'none',
+            border: 'none',
+            cursor: 'pointer',
+            padding: 0,
+            transition: 'opacity 200ms',
+          }}
+          onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.opacity = '0.9'; }}
+          onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.opacity = '0.5'; }}
+        >
+          PEKIŃSKIE KUPKI — CENTRUM PEKINESA
+        </button>
       </div>
     </div>
   );

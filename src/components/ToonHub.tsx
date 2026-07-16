@@ -6,26 +6,26 @@ import { sfx } from '../sounds';
 const IMAGES = [
   {
     src: '/CANDYREADING.png', bg: '#7C3AED', panel: '#9F67F5',
-    name: 'THE DAILY BARK',
-    description: 'Wrapped in a velvet robe and armed with reading glasses, Candy starts every morning with the Canine Chronicle. No treat can interrupt her editorial hour. A true intellectual of the pack.',
+    name: 'CODZIENNY SZCZEK',
+    description: 'Owinięta w aksamitny szlafrok i uzbrojona w okulary do czytania, Candy zaczyna każdy poranek od Kroniki Czworonogów. Żaden smakołyk nie przerwie jej redakcyjnej godziny. Prawdziwy intelektualista sfory.',
     clickSfx: 'candy_reading' as const,
   },
   {
     src: '/DAISYBOARD.png', bg: '#0284C7', panel: '#38BDF8',
-    name: 'SHRED QUEEN',
-    description: "Daisy doesn't just hit the slopes — she owns them. Helmet on, board locked, she carves powder with the confidence of a seasoned pro. Fresh air and cold snow are her natural habitat.",
+    name: 'KRÓLOWA STOKU',
+    description: 'Daisy nie tylko zjeżdża ze stoków — ona nimi rządzi. Kask na głowie, deska gotowa, kroi puch śnieżny z pewnością siebie doświadczonego zawodowca. Świeże powietrze i zimny śnieg to jej naturalne środowisko.',
     clickSfx: 'daisy_board' as const,
   },
   {
     src: '/CANDYKIMONO.png', bg: '#16A34A', panel: '#4ADE80',
-    name: 'IMPERIAL CANDY',
-    description: 'Dressed in an ornate red kimono, Candy channels the elegance of ancient Japan. She picks up every sushi roll with chopstick precision and zero hesitation. Refinement runs in her blood.',
+    name: 'IMPERIALNA CANDY',
+    description: 'Ubrana w zdobione czerwone kimono, Candy emanuje elegancją starożytnej Japonii. Każdy kawałek sushi podnosi z precyzją pałeczek i bez chwili wahania. Wyrafinowanie ma we krwi.',
     clickSfx: 'char_click' as const,
   },
   {
     src: '/DAISYMODNA.png', bg: '#881337', panel: '#BE1D4A',
-    name: 'HOUSE OF DAISY',
-    description: 'Daisy glides in wearing a floor-length black gown and a wide-brimmed statement hat. Her designer bag completes a look that belongs on the front row. Fashion week starts when she walks in.',
+    name: 'DOM DAISY',
+    description: 'Daisy wkracza w długiej czarnej sukni i szerokim kapeluszu robiącym wrażenie. Designerska torebka dopełnia look, który należy do pierwszego rzędu. Tydzień mody zaczyna się, gdy ona wchodzi.',
     clickSfx: 'daisy_modna' as const,
   },
 ];
@@ -190,7 +190,7 @@ export default function ToonHub() {
           {isMobile ? (
             // Stack words so each 5-char word fits within phone width
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', lineHeight: 0.9 }}>
-              {['Beijing', 'Piles'].map(word => (
+              {['Pekińskie', 'Kupki'].map(word => (
                 <span
                   key={word}
                   style={{
@@ -202,6 +202,7 @@ export default function ToonHub() {
                     textTransform: 'uppercase',
                     letterSpacing: '-0.02em',
                     whiteSpace: 'nowrap',
+                    textShadow: '0 4px 24px rgba(0,0,0,0.35), 0 2px 8px rgba(0,0,0,0.25)',
                   }}
                 >
                   {word}
@@ -209,20 +210,26 @@ export default function ToonHub() {
               ))}
             </div>
           ) : (
-            <span
-              style={{
-                fontFamily: "'Anton', sans-serif",
-                fontSize: 'clamp(90px, 28vw, 380px)',
-                fontWeight: 900,
-                color: 'white',
-                lineHeight: 1,
-                textTransform: 'uppercase',
-                letterSpacing: '-0.02em',
-                whiteSpace: 'nowrap',
-              }}
-            >
-              Beijing Piles
-            </span>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', lineHeight: 0.88 }}>
+              {['Pekińskie', 'Kupki'].map(word => (
+                <span
+                  key={word}
+                  style={{
+                    fontFamily: "'Anton', sans-serif",
+                    fontSize: 'clamp(90px, 18vw, 320px)',
+                    fontWeight: 900,
+                    color: 'white',
+                    lineHeight: 0.88,
+                    textTransform: 'uppercase',
+                    letterSpacing: '-0.02em',
+                    whiteSpace: 'nowrap',
+                    textShadow: '0 4px 24px rgba(0,0,0,0.35), 0 2px 8px rgba(0,0,0,0.25)',
+                  }}
+                >
+                  {word}
+                </span>
+              ))}
+            </div>
           )}
         </div>
 
@@ -242,7 +249,7 @@ export default function ToonHub() {
           onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.transform = 'scale(1)'; }}
           onMouseDown={e => { (e.currentTarget as HTMLButtonElement).style.transform = 'scale(0.94)'; }}
           onMouseUp={e => { (e.currentTarget as HTMLButtonElement).style.transform = 'scale(1.06)'; }}
-          title="Click to hear a Pekingese bark!"
+          title="Kliknij, aby usłyszeć szczekanie Pekinesa!"
         >
           <PawPrint
             size={22}
@@ -253,7 +260,7 @@ export default function ToonHub() {
             className="font-semibold uppercase"
             style={{ color: 'white', opacity: 0.9, letterSpacing: '0.18em', fontSize: 'clamp(14px, 2vw, 22px)' }}
           >
-            Pekingese Hub
+            Centrum Pekinesa
           </span>
           <PawPrint
             size={16}
@@ -354,8 +361,8 @@ export default function ToonHub() {
 
         {/* Left arrow */}
         <button
-          onClick={() => navigate('prev')}
-          aria-label="Previous"
+          onClick={() => { sfx.arrow_swoosh.play(); navigate('prev'); }}
+          aria-label="Poprzedni"
           style={{
             position: 'absolute',
             left: isMobile ? '10px' : '24px',
@@ -388,8 +395,8 @@ export default function ToonHub() {
 
         {/* Right arrow */}
         <button
-          onClick={() => navigate('next')}
-          aria-label="Next"
+          onClick={() => { sfx.arrow_swoosh.play(); navigate('next'); }}
+          aria-label="Następny"
           style={{
             position: 'absolute',
             right: isMobile ? '10px' : '24px',
@@ -456,7 +463,7 @@ export default function ToonHub() {
             onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.opacity = '1'; }}
             onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.opacity = '0.95'; }}
           >
-            DISCOVER IT
+            ODKRYJ
             <ArrowRight className="w-5 h-5 sm:w-8 sm:h-8" strokeWidth={2.25} />
           </a>
         </div>
