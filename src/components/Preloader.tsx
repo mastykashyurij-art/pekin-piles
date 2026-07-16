@@ -2,6 +2,9 @@ import { useEffect, useRef, useState } from 'react';
 
 const PRELOADER_VIDEO = '/preloader-candyjackson.mp4';
 const FALLBACK_TIMEOUT_MS = 15000;
+// Intrinsic aspect ratio of the source clip (1244x1660), used to size the
+// sharp video's box so the progress bar hugs its true rendered edges.
+const VIDEO_ASPECT = 1244 / 1660;
 
 export default function Preloader() {
   const [progress, setProgress] = useState(0);
@@ -81,21 +84,42 @@ export default function Preloader() {
         fading ? 'opacity-0 pointer-events-none' : 'opacity-100'
       }`}
     >
-      <div className="relative w-full h-full flex items-center justify-center">
+      <div className="relative w-full h-full flex items-center justify-center overflow-hidden">
+        {/* Blurred, scaled-up copy fills the screen behind the sharp video so
+            wide monitors never show plain black bars around the portrait clip. */}
         <video
-          ref={videoRef}
           src={PRELOADER_VIDEO}
           autoPlay
           muted
           loop
           playsInline
-          className="max-w-full max-h-full object-contain"
+          aria-hidden="true"
+          className="absolute inset-0 w-full h-full object-cover scale-125 blur-3xl opacity-60"
         />
-        <div className="absolute bottom-0 left-0 right-0 h-2 bg-white/10">
-          <div
-            className="h-full bg-white transition-[width] duration-150 ease-out"
-            style={{ width: `${Math.min(progress, 100)}%` }}
+        <div className="absolute inset-0 bg-black/40" />
+
+        <div
+          className="relative"
+          style={{
+            width: `min(100vw, calc(100vh * ${VIDEO_ASPECT}))`,
+            height: `min(100vh, calc(100vw / ${VIDEO_ASPECT}))`,
+          }}
+        >
+          <video
+            ref={videoRef}
+            src={PRELOADER_VIDEO}
+            autoPlay
+            muted
+            loop
+            playsInline
+            className="w-full h-full object-contain"
           />
+          <div className="absolute bottom-0 left-0 right-0 h-2 bg-white/10">
+            <div
+              className="h-full bg-white transition-[width] duration-150 ease-out"
+              style={{ width: `${Math.min(progress, 100)}%` }}
+            />
+          </div>
         </div>
       </div>
     </div>
