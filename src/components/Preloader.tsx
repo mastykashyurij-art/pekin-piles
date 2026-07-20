@@ -17,11 +17,11 @@ export default function Preloader() {
   const finishScheduledRef = useRef(false);
 
   useEffect(() => {
-    document.body.style.overflow = 'hidden';
+    document.body.style.overflow = visible ? 'hidden' : '';
     return () => {
       document.body.style.overflow = '';
     };
-  }, []);
+  }, [visible]);
 
   // Bar fills in step with actual video playback (currentTime/duration),
   // capped below 100 until loading is confirmed done. Never regresses, so a
