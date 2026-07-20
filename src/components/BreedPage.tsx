@@ -78,7 +78,7 @@ export default function BreedPage() {
 
   const backButton = (
     <button
-      onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+      onClick={() => { sfx.arrow_swoosh.play(); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
       aria-label="Wróć"
       style={{
         position: 'absolute',
@@ -174,7 +174,7 @@ export default function BreedPage() {
             </p>
             <a
               href="#breed-content"
-              onClick={e => { e.preventDefault(); document.getElementById('breed-content')?.scrollIntoView({ behavior: 'smooth' }); }}
+              onClick={e => { e.preventDefault(); sfx.arrow_swoosh.play(); document.getElementById('breed-content')?.scrollIntoView({ behavior: 'smooth' }); }}
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
@@ -266,7 +266,7 @@ export default function BreedPage() {
           {/* CZYTAJ OPIS — bottom left */}
           <a
             href="#breed-content"
-            onClick={e => { e.preventDefault(); document.getElementById('breed-content')?.scrollIntoView({ behavior: 'smooth' }); }}
+            onClick={e => { e.preventDefault(); sfx.arrow_swoosh.play(); document.getElementById('breed-content')?.scrollIntoView({ behavior: 'smooth' }); }}
             style={{
               position: 'absolute',
               bottom: 56,
@@ -372,7 +372,7 @@ export default function BreedPage() {
         justifyContent: 'center',
       }}>
         <button
-          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+          onClick={() => { sfx.arrow_swoosh.play(); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
           style={{
             fontFamily: "'Anton', sans-serif",
             fontSize: 'clamp(13px, 2vw, 20px)',

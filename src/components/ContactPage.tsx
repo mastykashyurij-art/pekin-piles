@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { PawPrint, Send } from 'lucide-react';
+import { sfx } from '../sounds';
 
 type Status = 'idle' | 'sending' | 'sent' | 'error';
 
@@ -300,7 +301,7 @@ export default function ContactPage() {
         justifyContent: 'center',
       }}>
         <button
-          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+          onClick={() => { sfx.arrow_swoosh.play(); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
           style={{
             fontFamily: "'Anton', sans-serif",
             fontSize: 'clamp(11px, 1.5vw, 16px)',
