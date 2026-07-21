@@ -1,11 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
 
-const PRELOADER_VIDEO = '/preloader-candyjackson.mp4';
+const PRELOADER_VIDEO = '/preloader.mp4';
 const FALLBACK_TIMEOUT_MS = 15000;
 const MIN_DISPLAY_MS = 4000;
-// Intrinsic aspect ratio of the source clip (1244x1660), used to size the
+// Intrinsic aspect ratio of the source clip (1280x720), used to size the
 // sharp video's box so the progress bar hugs its true rendered edges.
-const VIDEO_ASPECT = 1244 / 1660;
+const VIDEO_ASPECT = 1280 / 720;
 
 export default function Preloader() {
   const [progress, setProgress] = useState(0);
@@ -126,11 +126,16 @@ export default function Preloader() {
             playsInline
             className="w-full h-full object-contain"
           />
-          <div className="absolute bottom-0 left-0 right-0 h-2 bg-white/10">
-            <div
-              className="h-full bg-white transition-[width] duration-150 ease-out"
-              style={{ width: `${Math.min(progress, 100)}%` }}
-            />
+          <div className="absolute bottom-0 left-0 right-0 flex flex-col items-center gap-1.5 pb-3">
+            <div className="w-full h-2 bg-white/10">
+              <div
+                className="h-full bg-white transition-[width] duration-150 ease-out"
+                style={{ width: `${Math.min(progress, 100)}%` }}
+              />
+            </div>
+            <span className="text-white text-xs font-medium tabular-nums tracking-wide">
+              {Math.round(Math.min(progress, 100))}%
+            </span>
           </div>
         </div>
       </div>
