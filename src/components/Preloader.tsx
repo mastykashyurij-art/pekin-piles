@@ -23,22 +23,25 @@ export default function Preloader() {
     };
   }, [visible]);
 
-  // Bar fills in step with actual video playback (currentTime/duration),
-  // capped below 100 until loading is confirmed done. Never regresses, so a
-  // loop (if real loading outruns the clip) just holds the bar at its cap
-  // instead of visibly resetting.
+  // Bar fills smoothly in step with actual video playback (currentTime/
+  // duration), sampled every frame for a fluid 0->100 sweep instead of the
+  // choppier native `timeupdate` cadence. Never regresses, so if the clip
+  // has to loop while real loading is still catching up, the bar simply
+  // holds at 100 instead of visibly resetting to 0.
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
 
-    const onTimeUpdate = () => {
-      if (finishScheduledRef.current || !video.duration) return;
-      const pct = Math.min(99, (video.currentTime / video.duration) * 100);
-      setProgress((prev) => Math.max(prev, pct));
+    let raf: number;
+    const tick = () => {
+      if (video.duration) {
+        const pct = Math.min(100, (video.currentTime / video.duration) * 100);
+        setProgress((prev) => Math.max(prev, pct));
+      }
+      raf = requestAnimationFrame(tick);
     };
-
-    video.addEventListener('timeupdate', onTimeUpdate);
-    return () => video.removeEventListener('timeupdate', onTimeUpdate);
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
   }, []);
 
   useEffect(() => {
@@ -126,14 +129,14 @@ export default function Preloader() {
             playsInline
             className="w-full h-full object-contain"
           />
-          <div className="absolute bottom-0 left-0 right-0 flex flex-col items-center gap-1.5 pb-3">
-            <div className="w-full h-2 bg-white/10">
+          <div className="absolute bottom-0 left-0 right-0 flex flex-col items-center gap-3 pb-5 px-4">
+            <div className="w-full h-3 rounded-full bg-white/20 shadow-[inset_0_1px_2px_rgba(0,0,0,0.4)] overflow-hidden">
               <div
-                className="h-full bg-white transition-[width] duration-150 ease-out"
+                className="h-full rounded-full bg-white shadow-[0_0_12px_rgba(255,255,255,0.8)] transition-[width] duration-75 ease-linear"
                 style={{ width: `${Math.min(progress, 100)}%` }}
               />
             </div>
-            <span className="text-white text-xs font-medium tabular-nums tracking-wide">
+            <span className="text-white text-3xl md:text-4xl font-bold tabular-nums tracking-wide drop-shadow-[0_2px_6px_rgba(0,0,0,0.8)]">
               {Math.round(Math.min(progress, 100))}%
             </span>
           </div>
